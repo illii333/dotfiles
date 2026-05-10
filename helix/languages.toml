@@ -1,0 +1,59 @@
+[[language]]
+name = "rust"
+auto-format = false
+scope = "source.rust"
+injection-regex = "rust"
+file-types = ["rs"]
+roots = ["Cargo.toml", "Cargo.lock"]
+comment-tokens = "//"
+language-servers = ["rust-analyzer"]
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "c"
+auto-format = false
+scope = "source.c"
+injection-regex = "c"
+file-types = ["c", "h"]
+language-servers = [ "clangd" ]
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "go"
+auto-format = false
+scope = "source.go"
+injection-regex = "go"
+file-types = ["go"]
+language-servers = ["gopls"]
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "zig"
+auto-format = false
+scope = "source.zig"
+injection-regex = "zig"
+file-types = ["zig"]
+language-servers = ["zls"]
+indent = { tab-width = 4, unit = "    " }
+
+[[language]]
+name = "typescript"
+roots = ["deno.json", "deno.jsonc", "package.json"]
+auto-format = false
+language-servers = ["deno-lsp"]
+
+[[language]]
+name = "javascript"
+roots = ["deno.json", "deno.jsonc", "package.json"]
+auto-format = false
+language-servers = ["deno-lsp"]
+
+[language-server.deno-lsp]
+command = "deno"
+args = ["lsp"]
+config.deno.enable = true
+
+[[language]]
+name = "markdown"
+language-servers = ["marksman", "markdown-oxide"]
+

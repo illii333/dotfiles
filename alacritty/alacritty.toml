@@ -1,0 +1,65 @@
+# 【通用设置】
+[general]
+# 导入外部主题配置文件（dank-theme.toml）
+import = [
+  "~/.config/alacritty/dank-theme.toml"
+]
+
+[terminal]
+shell = { program = "/usr/bin/zellij" }
+
+#字体
+[font]
+normal = { family = "JetBrainsMono", style = "Bold"}
+bold = { family = "JetBrainsMono", style = "Bold" }
+italic = { family = "JetBrainsMono", style = "Bold"}
+size = 12.0
+# 【窗口设置】
+[window]
+# 窗口装饰：无（隐藏标题栏/边框）
+decorations = "None"
+# 窗口内边距：水平12像素，垂直12像素
+padding = { x = 12, y = 12 }
+# 窗口整体不透明度：50%（半透明）
+opacity = 0.7
+
+# 【滚动设置】
+[scrolling]
+# 滚动历史记录行数：3023行
+history = 3023
+
+# 【光标设置】
+[cursor]
+# 光标样式：方块形，开启闪烁
+style = { shape = "Block", blinking = "On" }
+# 光标闪烁间隔：500毫秒（0.5秒）
+blink_interval = 500
+# 窗口失焦时，光标变为空心方块
+unfocused_hollow = true
+
+# 【鼠标设置】
+[mouse]
+# 打字时自动隐藏鼠标指针
+hide_when_typing = true
+
+# 【选中内容设置】
+[selection]
+# 选中内容不自动保存到系统剪贴板
+save_to_clipboard = false
+
+# 【提示音设置】
+[bell]
+# 提示音持续时长：0毫秒（关闭提示音）
+duration = 0
+
+# 【键盘快捷键设置】
+[keyboard]
+bindings = [
+  { key = "C",       mods = "Control|Shift", action = "Copy"  },        # 快捷键：Shift+Ctrl+C → 复制选中内容
+  { key = "V",       mods = "Control|Shift", action = "Paste" },       # 快捷键：Shift+Ctrl+V → 粘贴内容
+  { key = "N",       mods = "Control|Shift", action = "SpawnNewInstance" }, # 快捷键：Shift+Ctrl+N → 新建Alacritty窗口
+  { key = "Equals",  mods = "Control|Shift", action = "IncreaseFontSize" }, # 快捷键：Shift+Ctrl+= → 增大字体
+  { key = "Minus",   mods = "Control",       action = "DecreaseFontSize" }, # 快捷键：Ctrl+- → 减小字体
+  { key = "Key0",    mods = "Control",       action = "ResetFontSize"    }, # 快捷键：Ctrl+0 → 重置字体大小
+  { key = "Enter",   mods = "Shift",         chars = "\n" },             # 快捷键：Shift+Enter → 输入换行符
+]
