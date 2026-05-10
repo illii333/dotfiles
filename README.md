@@ -11,6 +11,24 @@
 | `zellij/` | 终端复用器 |
 | `yazi/` | 文件管理器 |
 | `niri/` | Wayland 合成器 |
+| `bookokrat/` | 电子书管理 |
+| `mdfried/` | Markdown 阅读器 |
+| `termusic/` | 终端音乐播放器 |
+
+## Rust 终端工具推荐（待安装）
+
+| 工具 | 替代 | 用途 |
+|------|------|------|
+| bat | cat | 语法高亮 + 行号 |
+| eza | ls | 图标 + git 状态 |
+| fd | find | 快速文件搜索 |
+| ripgrep | grep | 极速文本搜索 |
+| zoxide | cd | 智能目录跳转 |
+| delta | git diff | diff 美化 |
+| gitui | lazygit | 终端 git 客户端 |
+| tealdeer | tldr | 命令示例速查 |
+| dust | du | 磁盘占用分析 |
+| starship | - | shell prompt 美化 |
 
 ## 推送方法
 
