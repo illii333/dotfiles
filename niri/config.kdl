@@ -1,0 +1,212 @@
+// 自动启动
+spawn-sh-at-startup "DMS_DISABLE_POLKIT=1 dms run"
+// 截图保存位置
+screenshot-path "~/Desktop/Pictures/%Y-%m-%d_%H-%M-%S.png"
+// 隐藏窗口标题栏
+prefer-no-csd
+
+// 环境变量
+environment {
+    // 设置界面语言
+    LANGUAGE "zh_CN.UTF-8"
+    LANG "zh_CN.UTF-8"
+    LC_CTYPE "en_US.UTF-8"
+    // 输入法环境变量
+    XMODIFIERS "@im=fcitx"
+    QT_QPA_PLATFORMTHEME "gtk3"
+    QT_QPA_PLATFORMTHEME_QT6 "gtk3"
+    QS_ICON_THEME "Adwaita"
+}
+window-rule {
+    match app-id="wezterm"
+    open-maximized false
+    // open-fullscreen
+    opacity 0.8
+    draw-border-with-background false
+}
+window-rule {
+    match app-id="alacritty"
+    open-maximized false
+    // open-fullscreen
+    opacity 0.8
+    draw-border-with-background false
+}
+input {
+    tablet {
+        // 屏幕1的正确名称（Logical position: 0, 0）
+        map-to-output "DP-1"
+    }
+}
+binds {
+    // ===================== 核心快捷键（图片内条目，带中文提示） =====================
+    Mod+Shift+Slash hotkey-overlay-title="显示快捷键列表" { show-hotkey-overlay; }
+    Mod+Shift+E hotkey-overlay-title="退出niri" { quit; }
+    Mod+Q hotkey-overlay-title="关闭窗口" repeat=false { close-window; }
+    Mod+Left hotkey-overlay-title="聚焦左侧列" { focus-column-left; }
+    Mod+Right hotkey-overlay-title="聚焦右侧列" { focus-column-right; }
+    Mod+Ctrl+Left hotkey-overlay-title="向左移动列" { move-column-left; }
+    Mod+Ctrl+Right hotkey-overlay-title="向右移动列" { move-column-right; }
+    Mod+Page_Down hotkey-overlay-title="聚焦下方工作区" { focus-workspace-down; }
+    Mod+Page_Up hotkey-overlay-title="聚焦上方工作区" { focus-workspace-up; }
+    Mod+Ctrl+Page_Down hotkey-overlay-title="移动列到下方工作区" { move-column-to-workspace-down; }
+    Mod+Ctrl+Page_Up hotkey-overlay-title="移动列到上方工作区" { move-column-to-workspace-up; }
+    Mod+R hotkey-overlay-title="切换预设列宽度" { switch-preset-column-width; }
+    Mod+F hotkey-overlay-title="最大化列" { maximize-column; }
+    Mod+BracketLeft hotkey-overlay-title="向左合并/移出窗口" { consume-or-expel-window-left; }
+    Mod+BracketRight hotkey-overlay-title="向右合并/移出窗口" { consume-or-expel-window-right; }
+    Mod+V hotkey-overlay-title="切换窗口浮动/平铺" { toggle-window-floating; }
+    Mod+Shift+V hotkey-overlay-title="切换浮动/平铺窗口焦点" { switch-focus-between-floating-and-tiling; }
+    Mod+O hotkey-overlay-title="切换概览视图" repeat=false { toggle-overview; }
+    Print hotkey-overlay-title="截取区域" { screenshot; }
+    // Mod+T hotkey-overlay-title="打开终端: alacritty" { spawn "alacritty"; }
+    Mod+T hotkey-overlay-title="打开终端: wezterm" { spawn "wezterm"; }
+    // Mod+D hotkey-overlay-title="运行应用程序: fuzzel" { spawn "fuzzel"; }
+    Super+Alt+L hotkey-overlay-title="锁定屏幕: swaylock" { spawn "swaylock"; }
+    Mod+D hotkey-overlay-title="程序菜单 Applauncher" { spawn-sh "dms ipc call spotlight toggle || fuzzel"; }
+
+    // ===================== 其余快捷键（保留功能 + 中文注释） =====================
+    // 屏幕阅读器开关
+    Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
+
+    // 音量控制
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
+    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+
+    // 媒体控制
+    XF86AudioPlay        allow-when-locked=true { spawn-sh "playerctl play-pause"; }
+    XF86AudioStop        allow-when-locked=true { spawn-sh "playerctl stop"; }
+    XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; }
+    XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
+
+    // 亮度调节
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+
+    // 窗口焦点（上下/HJKL替代键）
+    Mod+Down  { focus-window-down; }
+    Mod+Up    { focus-window-up; }
+    Mod+H     { focus-column-left; }
+    Mod+J     { focus-window-down; }
+    Mod+K     { focus-window-up; }
+    Mod+L     { focus-column-right; }
+
+    // 窗口/列移动（上下/HJKL替代键）
+    Mod+Ctrl+Down  { move-window-down; }
+    Mod+Ctrl+Up    { move-window-up; }
+    Mod+Ctrl+H     { move-column-left; }
+    Mod+Ctrl+J     { move-window-down; }
+    Mod+Ctrl+K     { move-window-up; }
+    Mod+Ctrl+L     { move-column-right; }
+
+    // 列首尾聚焦/移动
+    Mod+Home { focus-column-first; }
+    Mod+End  { focus-column-last; }
+    Mod+Ctrl+Home { move-column-to-first; }
+    Mod+Ctrl+End  { move-column-to-last; }
+
+    // 显示器焦点切换
+    Mod+Shift+Left  { focus-monitor-left; }
+    Mod+Shift+Down  { focus-monitor-down; }
+    Mod+Shift+Up    { focus-monitor-up; }
+    Mod+Shift+Right { focus-monitor-right; }
+    Mod+Shift+H     { focus-monitor-left; }
+    Mod+Shift+J     { focus-monitor-down; }
+    Mod+Shift+K     { focus-monitor-up; }
+    Mod+Shift+L     { focus-monitor-right; }
+
+    // 列移动到其他显示器
+    Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
+    Mod+Shift+Ctrl+H     { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+J     { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+K     { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+L     { move-column-to-monitor-right; }
+
+    // 工作区切换（UI/替代键）
+    Mod+U              { focus-workspace-down; }
+    Mod+I              { focus-workspace-up; }
+    Mod+Ctrl+U         { move-column-to-workspace-down; }
+    Mod+Ctrl+I         { move-column-to-workspace-up; }
+
+    // 工作区移动
+    Mod+Shift+Page_Down { move-workspace-down; }
+    Mod+Shift+Page_Up   { move-workspace-up; }
+    Mod+Shift+U         { move-workspace-down; }
+    Mod+Shift+I         { move-workspace-up; }
+
+    // 滚轮控制工作区/列
+    Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
+    Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
+    Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
+    Mod+WheelScrollRight      { focus-column-right; }
+    Mod+WheelScrollLeft       { focus-column-left; }
+    Mod+Ctrl+WheelScrollRight { move-column-right; }
+    Mod+Ctrl+WheelScrollLeft  { move-column-left; }
+    Mod+Shift+WheelScrollDown      { focus-column-right; }
+    Mod+Shift+WheelScrollUp        { focus-column-left; }
+    Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
+    Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }
+
+    // 数字键切换工作区
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+Ctrl+1 { move-column-to-workspace 1; }
+    Mod+Ctrl+2 { move-column-to-workspace 2; }
+    Mod+Ctrl+3 { move-column-to-workspace 3; }
+    Mod+Ctrl+4 { move-column-to-workspace 4; }
+    Mod+Ctrl+5 { move-column-to-workspace 5; }
+    Mod+Ctrl+6 { move-column-to-workspace 6; }
+    Mod+Ctrl+7 { move-column-to-workspace 7; }
+    Mod+Ctrl+8 { move-column-to-workspace 8; }
+    Mod+Ctrl+9 { move-column-to-workspace 9; }
+
+    // 窗口合并/移出列（逗号/句号键）
+    Mod+Comma  { consume-window-into-column; }
+    Mod+Period { expel-window-from-column; }
+
+    // 窗口高度调整
+    Mod+Shift+R { switch-preset-window-height; }
+    Mod+Ctrl+R { reset-window-height; }
+    Mod+Shift+F { fullscreen-window; }
+
+    // 列宽度扩展
+    Mod+Ctrl+F { expand-column-to-available-width; }
+
+    // 列居中
+    Mod+C { center-column; }
+    Mod+Ctrl+C { center-visible-columns; }
+
+    // 列/窗口尺寸微调
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+
+    // 列标签显示模式
+    Mod+W { toggle-column-tabbed-display; }
+
+    // 截图（屏幕/窗口）
+    Ctrl+Print { screenshot-screen; }
+    Alt+Print { screenshot-window; }
+
+    // 快捷键屏蔽开关
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+
+    // 退出niri（替代键）
+    Ctrl+Alt+Delete { quit; }
+
+    // 关闭显示器
+    Mod+Shift+P { power-off-monitors; }
+}
